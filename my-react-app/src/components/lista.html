@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Lista de Clientes</h2>
+
+    <div th:if="${mensaje}" class="alert alert-success" role="alert">
+        <span th:text="${mensaje}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+
+    <a href="/clientes/crear" class="btn btn-primary mb-3">Crear Cliente</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.idCliente}"></td>
+            <td th:text="${cliente.nombreCliente}"></td>
+            <td th:text="${cliente.apellidoCliente}"></td>
+            <td th:text="${cliente.correo}"></td>
+            <td>
+                <a th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}" class="btn btn-warning">Editar</a>
+                <a href="#" th:onclick="'confirmarEliminacion(/clientes/eliminar/' + ${cliente.idCliente} + ')'" class="btn btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function confirmarEliminacion(url) {
+        if (confirm('¿Estás seguro de eliminar este cliente?')) {
+            window.location.href = url;
+        }
+    }
+</script>
+</body>
+</html>
